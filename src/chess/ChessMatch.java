@@ -78,7 +78,9 @@ public class ChessMatch {
 			undoMove(initial, target, capturedPiece);
 			throw new ChessExceptions("You can't put tourself in check!");
 		}
-
+		
+		
+		
 		check = (testCheck(opponent(currentPlayer))) ? true : false;
 
 		
@@ -90,7 +92,8 @@ public class ChessMatch {
 	}
 
 	private Piece makeMove(Position initial, Position target) {
-		Piece p = board.removePiece(initial);
+		ChessPiece p = (ChessPiece)board.removePiece(initial);
+		p.increaseMoveCount();
 		Piece capturedPiece = board.removePiece(target);
 		board.placePeice(p, target);
 
@@ -103,7 +106,8 @@ public class ChessMatch {
 	}
 
 	private void undoMove(Position initial, Position target, Piece capturedPiece) {
-		Piece p = board.removePiece(target);
+		ChessPiece p = (ChessPiece)board.removePiece(target);
+		p.decreaseMoveCount();
 		board.placePeice(p, initial);
 
 		if (capturedPiece != null) {
